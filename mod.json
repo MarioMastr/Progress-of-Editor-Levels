@@ -1,0 +1,21 @@
+{
+	"geode": "4.0.0-beta.1",
+	"gd": {
+		"win": "2.2074",
+		"android": "2.2074",
+		"mac": "2.2074",
+		"ios": "2.2074"
+	},
+	"id": "mariomastr.progress_of_editor_levels",
+	"name": "Progress of Editor Levels",
+	"version": "v1.0.0",
+	"developer": "MarioMastr",
+	"description": "Shows your gameplay progress of copied levels, because for some reason they weren't there before.",
+	"dependencies": [
+        {
+            "id": "geode.node-ids",
+            "version": ">=v1.17.0-alpha.2",
+            "importance": "required"
+        }
+    ]
+}
