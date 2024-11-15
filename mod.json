@@ -17,5 +17,7 @@
             "version": ">=v1.17.0-alpha.2",
             "importance": "required"
         }
-    ]
+    ],
+	"tags": ["interface"],
+	"repository": "https://github.com/MarioMastr/Progress-of-Editor-Levels"
 }
