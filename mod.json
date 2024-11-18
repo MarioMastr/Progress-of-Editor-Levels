@@ -8,7 +8,7 @@
 	},
 	"id": "mariomastr.progress_of_editor_levels",
 	"name": "Progress of Editor Levels",
-	"version": "v1.0.0",
+	"version": "v1.0.1",
 	"developer": "MarioMastr",
 	"description": "Shows your gameplay progress of copied levels, because for some reason they weren't there before.",
 	"dependencies": [
