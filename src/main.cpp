@@ -12,7 +12,7 @@ class $modify(MyEditLevelLayer, EditLevelLayer)
 		// Normal Mode Related
 		CCLabelBMFont *normalModeLabel = CCLabelBMFont::create("Normal Mode", "bigFont.fnt");
 		normalModeLabel->setAnchorPoint(ccp(0.5, 0.5));
-		normalModeLabel->setPosition(ccp(256.0, 127.0));
+		normalModeLabel->setPosition(ccp(256.0, 108.0));
 		normalModeLabel->setScale(0.4);
 		normalModeLabel->setZOrder(4);
 
@@ -21,7 +21,7 @@ class $modify(MyEditLevelLayer, EditLevelLayer)
 
         CCSprite *normalModeBar = CCSprite::create("GJ_progressBar_001.png");
         normalModeBar->setAnchorPoint(ccp(0.5, 0.5));
-        normalModeBar->setPosition(ccp(256.0, 112.0));
+        normalModeBar->setPosition(ccp(256.0, 93.0));
         normalModeBar->setScale(0.7);
         normalModeBar->setColor({ 0, 0, 0 });
         normalModeBar->setOpacity(125);
@@ -42,7 +42,7 @@ class $modify(MyEditLevelLayer, EditLevelLayer)
 
 		CCLabelBMFont *normalModePercentage = CCLabelBMFont::create(std::to_string(this->m_level->m_normalPercent).append("%").c_str(), "bigFont.fnt");
 		normalModePercentage->setAnchorPoint(ccp(0.5, 0.5));
-		normalModePercentage->setPosition(ccp(256.0, 112.0));
+		normalModePercentage->setPosition(ccp(256.0, 93.0));
 		normalModePercentage->setScale(0.4);
 		normalModePercentage->setID("normal-mode-percentage");
 		normalModePercentage->setZOrder(4);
@@ -55,7 +55,7 @@ class $modify(MyEditLevelLayer, EditLevelLayer)
 		// Practice Mode Related
 		CCLabelBMFont *practiceModeLabel = CCLabelBMFont::create("Practice Mode", "bigFont.fnt");
 		practiceModeLabel->setAnchorPoint(ccp(0.5, 0.5));
-		practiceModeLabel->setPosition(ccp(256.0, 95.0));
+		practiceModeLabel->setPosition(ccp(256.0, 76.0));
 		practiceModeLabel->setScale(0.4);
 		practiceModeLabel->setZOrder(4);
 
@@ -64,7 +64,7 @@ class $modify(MyEditLevelLayer, EditLevelLayer)
 
         CCSprite *practiceModeBar = CCSprite::create("GJ_progressBar_001.png");
         practiceModeBar->setAnchorPoint(ccp(0.5, 0.5));
-        practiceModeBar->setPosition(ccp(256.0, 80.0));
+        practiceModeBar->setPosition(ccp(256.0, 61.0));
         practiceModeBar->setScale(0.7);
         practiceModeBar->setColor({ 0, 0, 0 });
         practiceModeBar->setOpacity(125);
@@ -85,7 +85,7 @@ class $modify(MyEditLevelLayer, EditLevelLayer)
 
 		CCLabelBMFont *practiceModePercentage = CCLabelBMFont::create(std::to_string(this->m_level->m_practicePercent).append("%").c_str(), "bigFont.fnt");
 		practiceModePercentage->setAnchorPoint(ccp(0.5, 0.5));
-		practiceModePercentage->setPosition(ccp(256.0, 80.0));
+		practiceModePercentage->setPosition(ccp(256.0, 61.0));
 		practiceModePercentage->setScale(0.4);
 		practiceModePercentage->setZOrder(4);
 		practiceModePercentage->setID("practice-mode-percentage");
@@ -104,8 +104,17 @@ class $modify(MyEditLevelLayer, EditLevelLayer)
         NodeIDs::provideFor(this);   
 
         CCNode *levelEditMenu = this->getChildByID("level-edit-menu");
-        levelEditMenu->setPositionY(161.0);
-        levelEditMenu->setScale(0.6);
+        levelEditMenu->setPositionY(153.0);
+        levelEditMenu->setScale(0.85);
+
+		CCNode *levelLength = this->getChildByID("level-length");
+		levelLength->setPositionY(37.0);
+
+		CCNode *levelSong = this->getChildByID("level-song");
+		levelSong->setPositionY(37.0);
+
+		CCNode *levelVerified = this->getChildByID("level-verified");
+		levelVerified->setPositionY(37.0);
 
 		this->setupProgressBars();
 
