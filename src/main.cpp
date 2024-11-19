@@ -121,5 +121,5 @@ class $modify(MyEditLevelLayer, EditLevelLayer)
 		this->setupProgressBars();
 
 		return true;
-    }
+	}
 };
