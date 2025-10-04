@@ -8,7 +8,7 @@ else()
 endif()
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
-project(ProgressofEditorLevels VERSION 1.1.1)
+project(ProgressofEditorLevels VERSION 1.2.0)
 
 add_library(${PROJECT_NAME} SHARED
     src/main.cpp

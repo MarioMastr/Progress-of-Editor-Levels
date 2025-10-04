@@ -4,11 +4,9 @@ using namespace geode::prelude;
 
 #include <Geode/modify/EditLevelLayer.hpp>
 
-class $modify(MyEditLevelLayer, EditLevelLayer)
-{
+class $modify(MyEditLevelLayer, EditLevelLayer) {
 	// can't copy a node so i have to recreate it ughhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
-	void setupProgressBars()
-	{
+	void setupProgressBars() {
 		CCSize windowSize = CCDirector::get()->getWinSize();
 
 		// Normal Mode Related
@@ -98,15 +96,14 @@ class $modify(MyEditLevelLayer, EditLevelLayer)
 		this->addChild(practiceModeBar);
 	}
 
-	bool init(GJGameLevel *p0)
-	{
+	bool init(GJGameLevel *p0) {
 		if (!EditLevelLayer::init(p0))
 		    return false;
 
 		NodeIDs::provideFor(this);   
 
 		CCNode *levelEditMenu = this->getChildByID("level-edit-menu");
-		levelEditMenu->setPositionY(153.0);
+		levelEditMenu->setPosition({CCDirector::get()->getWinSize().width / 2, 153.0});
 		levelEditMenu->setScale(0.85);
 
 		CCNode *levelLength = this->getChildByID("level-length");

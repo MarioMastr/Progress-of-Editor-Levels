@@ -9,3 +9,6 @@
 
 # 1.1.1
 - JIT-less iOS support
+
+# 1.2.0
+- Fixes play/edit menu being slightly to the right of where it should be on my screen
