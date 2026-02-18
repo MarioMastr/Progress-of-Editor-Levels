@@ -12,3 +12,7 @@
 
 # 1.2.0
 - Fixes play/edit menu being slightly to the right of where it should be on my screen
+
+# 1.3.0
+- Update to 2.2081 and Geode 5.0.0
+- Changed username of mod developer to reflect in-game GD name
