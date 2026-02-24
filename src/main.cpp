@@ -4,7 +4,7 @@ using namespace geode::prelude;
 
 #include <Geode/modify/EditLevelLayer.hpp>
 
-class $modify(MyEditLevelLayer, EditLevelLayer) {
+class $modify(ProgELL, EditLevelLayer) {
 	// can't copy a node so i have to recreate it ughhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
 	void setupProgressBars() {
 		CCSize windowSize = CCDirector::get()->getWinSize();
