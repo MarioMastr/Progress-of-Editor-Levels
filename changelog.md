@@ -18,4 +18,4 @@
 - Changed username of mod developer to reflect in-game GD name
 
 # 1.3.1
-- Updated logo (thanks to @._hello._hello._hello._ on discord)
+- Updated logo (thanks to @._hello._hello.\_hello.\_ on discord)
