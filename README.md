@@ -1,3 +1,8 @@
+![Mod Version](https://api.geode-sdk.org/v1/mods/mariomastr.progress_of_editor_levels/status_badge?stat=version)
+![Downloads](https://api.geode-sdk.org/v1/mods/mariomastr.progress_of_editor_levels/status_badge?stat=downloads)
+![GD Version](https://api.geode-sdk.org/v1/mods/mariomastr.progress_of_editor_levels/status_badge?stat=gd_version)
+![Geode Version](https://api.geode-sdk.org/v1/mods/mariomastr.progress_of_editor_levels/status_badge?stat=geode_version)
+
 # Progress of Editor Levels
 
 Adds percentage bars to EditLevelLayer. Now you can easily see your progress on editor levels.
