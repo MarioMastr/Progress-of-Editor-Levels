@@ -5,95 +5,99 @@ using namespace geode::prelude;
 #include <Geode/modify/EditLevelLayer.hpp>
 
 class $modify(ProgELL, EditLevelLayer) {
-	// can't copy a node so i have to recreate it ughhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+	CCSprite *addProgressBar(cocos2d::CCPoint p0, int p1, cocos2d::ccColor3B p2, char const* p3, char const* p4) {
+		std::string nameForID = std::string(p3).substr(0, std::string(p3).find(" "));
+		std::transform(nameForID.begin(), nameForID.end(), nameForID.begin(), ::tolower);
+
+		CCSprite *progressBar = GameToolbox::createProgressBar(0.7, p1, p2);
+		progressBar->setPosition(p0);
+		progressBar->setID(nameForID + "-mode-bar");
+		addChild(progressBar, 3);
+
+		CCLabelBMFont *progressLabel = CCLabelBMFont::create(p3, "bigFont.fnt");
+		progressLabel->setPosition(p0 + ccp(0, 15));
+		progressLabel->setScale(0.4);
+		progressLabel->setID(nameForID + "-mode-label");
+		addChild(progressLabel, 4);
+
+		CCLabelBMFont *progressPercentage = CCLabelBMFont::create(p4, "bigFont.fnt");
+		progressPercentage->setPosition(p0);
+		progressPercentage->setScale(0.4);
+		progressPercentage->setID(nameForID + "-mode-percentage");
+		addChild(progressPercentage, 4);
+
+		return progressBar;
+	}
+
 	void setupProgressBars() {
-		CCSize windowSize = CCDirector::get()->getWinSize();
+		CCDirector *director = CCDirector::get();
 
-		// Normal Mode Related
-		CCLabelBMFont *normalModeLabel = CCLabelBMFont::create("Normal Mode", "bigFont.fnt");
-		normalModeLabel->setAnchorPoint(ccp(0.5, 0.5));
-		normalModeLabel->setPosition(ccp(windowSize.width / 2, 108.0));
-		normalModeLabel->setScale(0.4);
-		normalModeLabel->setZOrder(4);
+		CCSprite *normalModeBar = addProgressBar(
+			{
+				director->getWinSize().width / 2,
+				director->getScreenBottom() + 95
+			},
+			m_level->m_normalPercent,
+			{ 0, 255, 0 },
+			"Normal Mode",
+			std::to_string(m_level->m_normalPercent).append("%").c_str()
+		);
 
-		normalModeLabel->setID("normal-mode-label");
-		this->addChild(normalModeLabel);
+		addProgressBar(
+			normalModeBar->getPosition() + ccp(0, -32),
+			m_level->m_practicePercent,
+			{ 0, 255, 255 },
+			"Practice Mode",
+			std::to_string(m_level->m_practicePercent).append("%").c_str()
+		);
+	}
 
-		CCSprite *normalModeBar = CCSprite::create("GJ_progressBar_001.png");
-		normalModeBar->setAnchorPoint(ccp(0.5, 0.5));
-		normalModeBar->setPosition(ccp(windowSize.width / 2, 93.0));
-		normalModeBar->setScale(0.7);
-		normalModeBar->setColor({ 0, 0, 0 });
-		normalModeBar->setOpacity(125);
-		normalModeBar->setContentHeight(20.0);
-		normalModeBar->setContentWidth(340.0);
-		normalModeBar->setZOrder(3);
+	void setupPlatformerStats() {
+		CCDirector *director = CCDirector::get();
+		std::string bestTimeString{};
 
-		CCSprite *normalModeBarInside = CCSprite::create("GJ_progressBar_001.png");
-		normalModeBarInside->setAnchorPoint(ccp(0.0, 0.5));
-		normalModeBarInside->setPosition(ccp(1.360, 10.000));
-		normalModeBarInside->setScaleX(0.992);
-		normalModeBarInside->setScaleY(0.860);
-		normalModeBarInside->setColor({ 0, 255, 0 });
-		normalModeBarInside->setContentHeight(20.0);
-		normalModeBarInside->setContentWidth(this->m_level->m_normalPercent * 3.4);
-		normalModeBarInside->setTextureRect({normalModeBarInside->getTextureRect().origin.x, normalModeBarInside->getTextureRect().origin.y, static_cast<float>(this->m_level->m_normalPercent * 3.4), 20.0});
-		normalModeBarInside->setZOrder(1);
+		if (m_level->m_bestTime == 0)
+			bestTimeString = "No Best Time";
+		else {
+			std::string formattedTimeString{};
 
-		CCLabelBMFont *normalModePercentage = CCLabelBMFont::create(std::to_string(this->m_level->m_normalPercent).append("%").c_str(), "bigFont.fnt");
-		normalModePercentage->setAnchorPoint(ccp(0.5, 0.5));
-		normalModePercentage->setPosition(ccp(windowSize.width / 2, 93.0));
-		normalModePercentage->setScale(0.4);
-		normalModePercentage->setID("normal-mode-percentage");
-		normalModePercentage->setZOrder(4);
+			int bestTimeMilliseconds          = m_level->m_bestTime;
+			int bestTimeMillisecondsRemainder = bestTimeMilliseconds % 1000;
+			int bestTimeSeconds               = bestTimeMilliseconds / 1000;
+			int bestTimeSecondsRemainder      = bestTimeSeconds % 60;
+			int bestTimeMinutes               = bestTimeSeconds / 60;
+			int bestTimeMinutesRemainder      = bestTimeMinutes % 60;
+			int bestTimeHours                 = bestTimeMinutes / 60;
 
-		normalModeBar->setID("normal-mode-bar");
-		normalModeBar->addChild(normalModeBarInside);
-		this->addChild(normalModePercentage);
-		this->addChild(normalModeBar);
+			if (bestTimeHours == 0) {
+				if (bestTimeMinutes == 0)
+					formattedTimeString = fmt::format("{}.{:03d}", bestTimeSeconds, bestTimeMillisecondsRemainder);
+				else
+					formattedTimeString = fmt::format("{:02d}:{:02d}.{:03d}", bestTimeMinutes, bestTimeSecondsRemainder, bestTimeMillisecondsRemainder);
+			}
+			else
+				formattedTimeString = fmt::format("{:02d}:{:02d}:{:02d}.{:03d}", bestTimeHours, bestTimeMinutesRemainder, bestTimeSecondsRemainder, bestTimeMillisecondsRemainder);
 
-		// Practice Mode Related
-		CCLabelBMFont *practiceModeLabel = CCLabelBMFont::create("Practice Mode", "bigFont.fnt");
-		practiceModeLabel->setAnchorPoint(ccp(0.5, 0.5));
-		practiceModeLabel->setPosition(ccp(windowSize.width / 2, 76.0));
-		practiceModeLabel->setScale(0.4);
-		practiceModeLabel->setZOrder(4);
+			bestTimeString = std::string("Best Time: ").append(formattedTimeString);
+		}
 
-		practiceModeLabel->setID("practice-mode-label");
-		this->addChild(practiceModeLabel);
+		CCLabelBMFont *bestTimeLabel = CCLabelBMFont::create(bestTimeString.c_str(), "goldFont.fnt");
+		bestTimeLabel->setPosition({director->getWinSize().width / 2, director->getScreenBottom() + 83});
+		bestTimeLabel->setScale(0.6);
+		bestTimeLabel->limitLabelWidth(200, 0.6, 0);
+		bestTimeLabel->setID("best-time-label");
+		addChild(bestTimeLabel);
 
-		CCSprite *practiceModeBar = CCSprite::create("GJ_progressBar_001.png");
-		practiceModeBar->setAnchorPoint(ccp(0.5, 0.5));
-		practiceModeBar->setPosition(ccp(windowSize.width / 2, 61.0));
-		practiceModeBar->setScale(0.7);
-		practiceModeBar->setColor({ 0, 0, 0 });
-		practiceModeBar->setOpacity(125);
-		practiceModeBar->setContentHeight(20.0);
-		practiceModeBar->setContentWidth(340.0);
-		practiceModeBar->setZOrder(3);
+		if (m_level->m_savedPoints) {
+			bestTimeLabel->setPosition(bestTimeLabel->getPosition() + ccp(0, 14));
 
-		CCSprite *practiceModeBarInside = CCSprite::create("GJ_progressBar_001.png");
-		practiceModeBarInside->setAnchorPoint(ccp(0.0, 0.5));
-		practiceModeBarInside->setPosition(ccp(1.360, 10.000));
-		practiceModeBarInside->setScaleX(0.992);
-		practiceModeBarInside->setScaleY(0.860);
-		practiceModeBarInside->setColor({ 0, 255, 255 });
-		practiceModeBarInside->setContentHeight(20.0);
-		practiceModeBarInside->setContentWidth(this->m_level->m_practicePercent * 3.4);
-		practiceModeBarInside->setTextureRect({practiceModeBarInside->getTextureRect().origin.x, practiceModeBarInside->getTextureRect().origin.y, static_cast<float>(this->m_level->m_practicePercent * 3.4), 20.0});
-		practiceModeBarInside->setZOrder(1);
-
-		CCLabelBMFont *practiceModePercentage = CCLabelBMFont::create(std::to_string(this->m_level->m_practicePercent).append("%").c_str(), "bigFont.fnt");
-		practiceModePercentage->setAnchorPoint(ccp(0.5, 0.5));
-		practiceModePercentage->setPosition(ccp(windowSize.width / 2, 61.0));
-		practiceModePercentage->setScale(0.4);
-		practiceModePercentage->setZOrder(4);
-		practiceModePercentage->setID("practice-mode-percentage");
-
-		practiceModeBar->setID("practice-mode-bar");
-		practiceModeBar->addChild(practiceModeBarInside);
-		this->addChild(practiceModePercentage);
-		this->addChild(practiceModeBar);
+			CCLabelBMFont *bestPointsLabel = CCLabelBMFont::create(fmt::format("Best Points: {}", m_level->m_bestPoints).c_str(), "goldFont.fnt");
+			bestPointsLabel->setPosition(bestTimeLabel->getPosition() + ccp(0, -28));
+			bestPointsLabel->setScale(0.6);
+			bestPointsLabel->limitLabelWidth(200, 0.6, 0);
+			bestPointsLabel->setID("best-points-label");
+			addChild(bestPointsLabel);
+		}
 	}
 
 	bool init(GJGameLevel *p0) {
@@ -102,20 +106,23 @@ class $modify(ProgELL, EditLevelLayer) {
 
 		NodeIDs::provideFor(this);   
 
-		CCNode *levelEditMenu = this->getChildByID("level-edit-menu");
+		CCNode *levelEditMenu = getChildByID("level-edit-menu");
 		levelEditMenu->setPosition({CCDirector::get()->getWinSize().width / 2, 153.0});
 		levelEditMenu->setScale(0.85);
 
-		CCNode *levelLength = this->getChildByID("level-length");
+		CCNode *levelLength = getChildByID("level-length");
 		levelLength->setPositionY(37.0);
 
-		CCNode *levelSong = this->getChildByID("level-song");
+		CCNode *levelSong = getChildByID("level-song");
 		levelSong->setPositionY(37.0);
 
-		CCNode *levelVerified = this->getChildByID("level-verified");
+		CCNode *levelVerified = getChildByID("level-verified");
 		levelVerified->setPositionY(37.0);
 
-		this->setupProgressBars();
+		if (p0->isPlatformer())
+			setupPlatformerStats();
+		else
+			setupProgressBars();
 
 		return true;
 	}
